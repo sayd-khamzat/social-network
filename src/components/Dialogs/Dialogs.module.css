@@ -1,0 +1,28 @@
+.dialogsBlock {
+    display: grid;
+    grid-template-columns: 3fr 7fr;
+}
+
+.dialogs {
+    margin: 10px;
+}
+
+.dialogsItems {
+
+}
+
+.dialog {
+
+}
+
+.messages {
+    margin: 10px;
+}
+
+.messagesItems {
+
+}
+
+.message {
+
+}
