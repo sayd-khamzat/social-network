@@ -5,16 +5,17 @@ import Profile from "./components/Profile/Profile";
 import {Routes, Route, BrowserRouter} from "react-router-dom";
 import Dialogs from "./components/Dialogs/Dialogs";
 
-function App() {
-    return (
+function App(props) {
+        return (
         <BrowserRouter>
             <div className='app-wrapper'>
                 <Header/>
                 <Navbar/>
                 <div className='app-wrapper-content'>
                     <Routes>
-                        <Route path='/profile' element={<Profile/>}/>
-                        <Route path='/dialogs/*' element={<Dialogs/>}/>
+                        <Route path='/profile' element={<Profile postsData={props.state.profilePage.postsData}/>}/>
+                        <Route path='/dialogs/*' element={<Dialogs dialogsData={props.state.dialogsPage.dialogsData}
+                                                                   messagesData={props.state.dialogsPage.messagesData}/>}/>
                     </Routes>
                 </div>
             </div>
