@@ -1,24 +1,32 @@
-import React, {createRef} from "react";
+import React from "react";
 import styles from "./MyPosts.module.css";
 import Post from "./Post/Post";
 
 const MyPosts = (props) => {
 
-    const postsElements = props.postsData.map(post => <Post key={post.id} message={post.message} likesCount={post.likesCount}/>)
+    const profilePage = props.profilePage;
 
-    const newPostElement = React.createRef()
+    const postsElements = profilePage.postsData.map(post => <Post key={post.id} message={post.message} likesCount={post.likesCount}/>);
+
+    const newPostElement = React.createRef();
 
     const addPost = () => {
-        const text = newPostElement.current.value
-        props.addPost(text)
-        newPostElement.current.value = ''
+        props.addPost();
+
+    }
+
+    const onPostChange = (e) => {
+        const text = e.target.value;
+        props.updateNewPostText(text);
     }
 
     return (
         <div>
             MyPosts
             <div>
-                <textarea ref={newPostElement}></textarea>
+                <textarea ref={newPostElement}
+                          onChange={onPostChange}
+                          value={profilePage.newPostText}></textarea>
             </div>
             <div>
                 <button onClick={addPost}>Add Post</button>
