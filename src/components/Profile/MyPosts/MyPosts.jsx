@@ -8,11 +8,8 @@ const MyPosts = (props) => {
 
     const postsElements = profilePage.postsData.map(post => <Post key={post.id} message={post.message} likesCount={post.likesCount}/>);
 
-    const newPostElement = React.createRef();
-
     const addPost = () => {
         props.addPost();
-
     }
 
     const onPostChange = (e) => {
@@ -24,8 +21,7 @@ const MyPosts = (props) => {
         <div>
             MyPosts
             <div>
-                <textarea ref={newPostElement}
-                          onChange={onPostChange}
+                <textarea onChange={onPostChange}
                           value={profilePage.newPostText}></textarea>
             </div>
             <div>

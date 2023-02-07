@@ -12,11 +12,11 @@ function App(props) {
             <Navbar/>
             <div className='app-wrapper-content'>
                 <Routes>
-                    <Route path='/profile' element={<Profile profilePage={props.state.profilePage}
-                                                             addPost={props.addPost}
-                                                             updateNewPostText={props.updateNewPostText}/>}/>
-                    <Route path='/dialogs/*' element={<Dialogs dialogsData={props.state.dialogsPage.dialogsData}
-                                                               messagesData={props.state.dialogsPage.messagesData}/>}/>
+                    <Route path='/profile' element={<Profile profilePage={props.store.getState().profilePage}
+                                                             addPost={props.store.addPost.bind(props.store)}
+                                                             updateNewPostText={props.store.updateNewPostText.bind(props.store)}/>}/>
+                    <Route path='/dialogs/*' element={<Dialogs dialogsData={props.store.getState().dialogsPage.dialogsData}
+                                                               messagesData={props.store.getState().dialogsPage.messagesData}/>}/>
                 </Routes>
             </div>
         </div>
