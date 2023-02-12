@@ -1,3 +1,6 @@
+import profileReducer from "./profile-reducer";
+import dialogsReducer from "./dialogs-reducer";
+
 const ADD_POST = 'ADD_POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT';
 const SEND_MESSAGE = 'SEND_MESSAGE';
@@ -38,40 +41,44 @@ const store = {
     },
 
     dispatch(action) {
-        if (action.type === ADD_POST) {
-            const newPost = {
-                id: this._state.profilePage.postsData.length + 1,
-                message: this._state.profilePage.newPostText,
-                likesCount: 15
-            }
-            this._state.profilePage.postsData.push(newPost);
-            this._callSubscriber(this._state);
-            this._state.profilePage.newPostText = '';
-        }
-        else if (action.type === UPDATE_NEW_POST_TEXT) {
-            this._state.profilePage.newPostText = action.newText;
-            this._callSubscriber(this._state);
-        }
-        else if (action.type === SEND_MESSAGE) {
-            const newMessage = {
-                id: this._state.dialogsPage.messagesData.length + 1,
-                message: this._state.dialogsPage.newMessageText
-            }
-            this._state.dialogsPage.messagesData.push(newMessage);
-            this._callSubscriber(this._state);
-            this._state.dialogsPage.newMessageText = '';
-        }
-        else if (action.type === UPDATE_NEW_MESSAGE_TEXT) {
-            this._state.dialogsPage.newMessageText = action.newMessage;
-            this._callSubscriber(this._state);
-        }
+        // if (action.type === ADD_POST) {
+        //     const newPost = {
+        //         id: this._state.profilePage.postsData.length + 1,
+        //         message: this._state.profilePage.newPostText,
+        //         likesCount: 15
+        //     }
+        //     this._state.profilePage.postsData.push(newPost);
+        //     this._callSubscriber(this._state);
+        //     this._state.profilePage.newPostText = '';
+        // }
+        // else if (action.type === UPDATE_NEW_POST_TEXT) {
+        //     this._state.profilePage.newPostText = action.newText;
+        //     this._callSubscriber(this._state);
+        // }
+        // else if (action.type === SEND_MESSAGE) {
+        //     const newMessage = {
+        //         id: this._state.dialogsPage.messagesData.length + 1,
+        //         message: this._state.dialogsPage.newMessageText
+        //     }
+        //     this._state.dialogsPage.messagesData.push(newMessage);
+        //     this._callSubscriber(this._state);
+        //     this._state.dialogsPage.newMessageText = '';
+        // }
+        // else if (action.type === UPDATE_NEW_MESSAGE_TEXT) {
+        //     this._state.dialogsPage.newMessageText = action.newMessage;
+        //     this._callSubscriber(this._state);
+        // }
+
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+        this._callSubscriber(this._state);
     }
 }
 
-export const addPostAC = () => ({type: ADD_POST});
-export const updateNewPostTextAC = (newText) => ({type: UPDATE_NEW_POST_TEXT, newText});
-export const sendMessageAC = () => ({type: SEND_MESSAGE});
-export const updateNewMessageTextAC = (newMessage) => ({type: UPDATE_NEW_MESSAGE_TEXT, newMessage});
+// export const addPostAC = () => ({type: ADD_POST});
+// export const updateNewPostTextAC = (newText) => ({type: UPDATE_NEW_POST_TEXT, newText});
+// export const sendMessageAC = () => ({type: SEND_MESSAGE});
+// export const updateNewMessageTextAC = (newMessage) => ({type: UPDATE_NEW_MESSAGE_TEXT, newMessage});
 
 window.store = store;
 

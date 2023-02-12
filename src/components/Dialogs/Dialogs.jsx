@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Dialogs.module.css";
 import Message from "./Message/Message";
 import Dialog from "./Dialog/Dialog";
-import {sendMessageAC, updateNewMessageTextAC} from "../../redux/store";
+import {sendMessageAC, updateNewMessageTextAC} from "../../redux/dialogs-reducer";
 
 function Dialogs(props) {
 
