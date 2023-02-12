@@ -14,8 +14,8 @@ function App(props) {
                 <Routes>
                     <Route path='/profile' element={<Profile profilePage={props.store.getState().profilePage}
                                                              dispatch={props.store.dispatch.bind(props.store)}/>}/>
-                    <Route path='/dialogs/*' element={<Dialogs dialogsData={props.store.getState().dialogsPage.dialogsData}
-                                                               messagesData={props.store.getState().dialogsPage.messagesData}/>}/>
+                    <Route path='/dialogs/*' element={<Dialogs dialogsPage={props.store.getState().dialogsPage}
+                                                               dispatch={props.store.dispatch.bind(props.store)}/>}/>
                 </Routes>
             </div>
         </div>

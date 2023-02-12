@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./MyPosts.module.css";
 import Post from "./Post/Post";
+import {addPostAC, updateNewPostTextAC} from "../../../redux/store";
 
 const MyPosts = (props) => {
 
@@ -9,12 +10,12 @@ const MyPosts = (props) => {
     const postsElements = profilePage.postsData.map(post => <Post key={post.id} message={post.message} likesCount={post.likesCount}/>);
 
     const addPost = () => {
-        props.dispatch({type: 'ADD-POST'});
+        props.dispatch(addPostAC());
     }
 
     const onPostChange = (e) => {
         const text = e.target.value;
-        props.dispatch({type: 'UPDATE_NEW_POST_TEXT', newText: text});
+        props.dispatch(updateNewPostTextAC(text));
     }
 
     return (
