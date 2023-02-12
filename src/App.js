@@ -13,8 +13,7 @@ function App(props) {
             <div className='app-wrapper-content'>
                 <Routes>
                     <Route path='/profile' element={<Profile profilePage={props.store.getState().profilePage}
-                                                             addPost={props.store.addPost.bind(props.store)}
-                                                             updateNewPostText={props.store.updateNewPostText.bind(props.store)}/>}/>
+                                                             dispatch={props.store.dispatch.bind(props.store)}/>}/>
                     <Route path='/dialogs/*' element={<Dialogs dialogsData={props.store.getState().dialogsPage.dialogsData}
                                                                messagesData={props.store.getState().dialogsPage.messagesData}/>}/>
                 </Routes>

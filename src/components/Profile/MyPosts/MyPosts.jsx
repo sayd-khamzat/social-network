@@ -9,12 +9,12 @@ const MyPosts = (props) => {
     const postsElements = profilePage.postsData.map(post => <Post key={post.id} message={post.message} likesCount={post.likesCount}/>);
 
     const addPost = () => {
-        props.addPost();
+        props.dispatch({type: 'ADD-POST'});
     }
 
     const onPostChange = (e) => {
         const text = e.target.value;
-        props.updateNewPostText(text);
+        props.dispatch({type: 'UPDATE_NEW_POST_TEXT', newText: text});
     }
 
     return (

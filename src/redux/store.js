@@ -27,22 +27,25 @@ const store = {
     getState() {
         return this._state;
     },
-    addPost() {
-        const newPost = {
-            id: 4,
-            message: this._state.profilePage.newPostText,
-            likesCount: 15
-        }
-        this._state.profilePage.postsData.push(newPost);
-        this._callSubscriber(this._state);
-        this._state.profilePage.newPostText = '';
-    },
-    updateNewPostText(newText) {
-        this._state.profilePage.newPostText = newText;
-        this._callSubscriber(this._state);
-    },
     subscribe(observer) {
         this._callSubscriber = observer;
+    },
+
+    dispatch(action) {
+        if (action.type === 'ADD-POST') {
+            const newPost = {
+                id: 4,
+                message: this._state.profilePage.newPostText,
+                likesCount: 15
+            }
+            this._state.profilePage.postsData.push(newPost);
+            this._callSubscriber(this._state);
+            this._state.profilePage.newPostText = '';
+        }
+        else if (action.type === 'UPDATE_NEW_POST_TEXT') {
+            this._state.profilePage.newPostText = action.newText;
+            this._callSubscriber(this._state);
+        }
     }
 }
 
