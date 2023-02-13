@@ -8,6 +8,15 @@ function Dialogs(props) {
     const dialogsElements = props.dialogsPage.dialogsData.map(dialog => <Dialog key={dialog.id} id={dialog.id} name={dialog.name}/>);
     const messagesElements = props.dialogsPage.messagesData.map(message => <Message key={message.id} id={message.id} message={message.message}/>);
 
+    const sendMessage = () => {
+        props.sendMessage();
+    }
+
+    const onMessageChange = (e) => {
+        const text = e.target.value;
+        props.updateNewMessageText(text);
+    }
+
     return (
         <div className={styles.dialogsBlock}>
             <div>
@@ -17,8 +26,8 @@ function Dialogs(props) {
                 <div>{messagesElements}</div>
                 <div>
                     <textarea value={props.dialogsPage.newMessageText}
-                              onChange={props.onMessageChange}/>
-                    <button onClick={props.sendMessage}>Send Message</button>
+                              onChange={onMessageChange}/>
+                    <button onClick={sendMessage}>Send Message</button>
                 </div>
             </div>
         </div>
