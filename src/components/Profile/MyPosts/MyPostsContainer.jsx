@@ -9,15 +9,6 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addPost: () => {
-            dispatch(addPostAC())
-        },
-        updateNewPostText: (text) => {
-            dispatch(updateNewPostTextAC(text))
-        }
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(MyPosts);
+export default connect(mapStateToProps,
+    {addPostAC, updateNewPostTextAC})
+(MyPosts);

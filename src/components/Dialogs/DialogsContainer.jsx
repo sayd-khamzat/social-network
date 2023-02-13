@@ -9,15 +9,6 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        sendMessage: () => {
-            dispatch(sendMessageAC())
-        },
-        updateNewMessageText: (text) => {
-            dispatch(updateNewMessageTextAC(text))
-        }
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Dialogs);
+export default connect(mapStateToProps,
+    {sendMessageAC, updateNewMessageTextAC})
+(Dialogs);
