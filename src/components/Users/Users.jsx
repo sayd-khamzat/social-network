@@ -1,16 +1,19 @@
 import React from "react";
 import styles from "./Users.module.css"
 import userPhoto from "../../assets/images/userPhoto.jpg"
-import axios from "axios";
 
 const Users = (props) => {
 
-    if (props.users.length === 0) {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users`)
-            .then(response => {
-                props.setUsers(response.data.items)
-            })
+    const pagesCount = Math.ceil(props.totalItemsCount / props.pageSize);
+    const pages = [];
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i);
     }
+
+    let curP = props.currentPage;
+    let curPF = ((curP - 3) < 0) ? 0 : curP - 3;
+    let curPL = curP + 2;
+    let slicedPages = pages.slice(curPF, curPL);
 
     return (
         <div>
@@ -38,6 +41,12 @@ const Users = (props) => {
                     </div>
                 </div>
             ))}
+            <div className={styles.paginationBlock}>
+                {slicedPages.map(page =>
+                    <button className={props.currentPage === page && styles.pageNumberActive}
+                            onClick={() => props.onPageChanged(page)}>
+                        {page}</button>)}
+            </div>
         </div>
     );
 }

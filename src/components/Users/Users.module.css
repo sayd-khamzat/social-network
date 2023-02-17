@@ -6,4 +6,13 @@
 
 .userPhoto {
     width: 50px;
+    border-radius: 30px;
+}
+
+.pageNumberActive {
+    background-color: green;
+}
+
+.paginationBlock {
+    text-align: center;
 }
