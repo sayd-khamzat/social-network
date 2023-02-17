@@ -2,6 +2,7 @@ import React from "react";
 import Users from "./Users";
 import {connect} from "react-redux";
 import {followAC, setUsersAC, unFollowAC} from "../../redux/users-reducer";
+import UsersClass from "./UsersClass";
 
 const mapStateToProps = (state) => {
     return {
@@ -17,4 +18,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Users);
+export default connect(mapStateToProps, mapDispatchToProps)(UsersClass);
