@@ -55,15 +55,11 @@ const mapStateToProps = (state) => { //контейнерный компонен
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        follow: (userId) => dispatch(followAC(userId)),
-        unFollow: (userId) => dispatch(unFollowAC(userId)),
-        setUsers: (users) => dispatch(setUsersAC(users)),
-        setUsersTotalCount: (totalCount) => dispatch(setUsersTotalCountAC(totalCount)),
-        setCurrentPage: (pageNumber) => dispatch(setCurrentPageAC(pageNumber)),
-        toggleIsFetching: (isFetching) => dispatch(toggleIsFetchingAC(isFetching))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent);
+export default connect(mapStateToProps,
+    {follow: followAC,
+    unFollow: unFollowAC,
+    setUsers: setUsersAC,
+    setUsersTotalCount: setUsersTotalCountAC,
+    setCurrentPage: setCurrentPageAC,
+    toggleIsFetching: toggleIsFetchingAC})
+(UsersAPIComponent);
