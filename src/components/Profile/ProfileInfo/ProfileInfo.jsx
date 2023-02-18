@@ -1,17 +1,23 @@
 import React from "react";
 import styles from "./ProfileInfo.module.css";
+import userPhoto from "../../../assets/images/userPhoto.jpg";
 
-const ProfileInfo = () => {
+const ProfileInfo = (props) => {
+
+    const myProfile = props.myProfile
+
     return (
-        <div>
+        <div className={styles.profileBlock}>
             <div>
-                <img src='https://www.next-t.co.kr/public/uploads/7b7f7e2138e29e598cd0cdf2c85ea08d.jpg'/>
+                <img src={myProfile.photos.small
+                    ? myProfile.photos.small
+                    : userPhoto}/>
             </div>
             <div>
-                ava + description
+                {myProfile.fullName}
             </div>
         </div>
-    );
+    )
 }
 
 export default ProfileInfo;
