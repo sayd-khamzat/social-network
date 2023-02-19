@@ -8,7 +8,8 @@ import Preloader from "../common/Preloader/Preloader";
 class ProfileContainer extends React.Component {
 
     componentDidMount() {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/27055`)
+        const userId = this.props.userId;
+        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
             .then(response => {
                 this.props.setMyProfile(response.data)
             })
@@ -24,7 +25,8 @@ class ProfileContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    myProfile: state.profilePage.myProfile
+    myProfile: state.profilePage.myProfile,
+    userId: state.auth.userId
 })
 
 export default connect(mapStateToProps,
