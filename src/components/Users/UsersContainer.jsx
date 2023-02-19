@@ -1,38 +1,29 @@
 import React from "react";
 import {connect} from "react-redux";
-import {
-    followAC,
-    setCurrentPageAC,
-    setUsersAC,
-    setUsersTotalCountAC,
-    toggleIsFetchingAC,
-    unFollowAC
-} from "../../redux/users-reducer";
-import axios from "axios";
+import {followAC, setCurrentPageAC, setUsersAC, setUsersTotalCountAC, toggleIsFetchingAC, unFollowAC} from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
+import {usersAPI} from "../../api/api";
 
 class UsersAPIComponent extends React.Component { //контейнерный компонент для Users
 
     componentDidMount() {
         this.props.toggleIsFetching(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`,
-            {withCredentials: true})
-            .then(response => {
+        usersAPI.getUsers(this.props.pageSize, this.props.currentPage)
+            .then(data => {
                 this.props.toggleIsFetching(false);
-                this.props.setUsers(response.data.items);
-                this.props.setUsersTotalCount(response.data.totalCount);
+                this.props.setUsers(data.items);
+                this.props.setUsersTotalCount(data.totalCount);
             })
     }
 
     onPageChanged = (pageNumber) => {
         this.props.toggleIsFetching(true);
         this.props.setCurrentPage(pageNumber);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${pageNumber}`,
-            {withCredentials: true})
-            .then(response => {
+        usersAPI.getUsers(this.props.pageSize, pageNumber)
+            .then(data => {
                 this.props.toggleIsFetching(false);
-                this.props.setUsers(response.data.items);
+                this.props.setUsers(data.items);
             })
     }
 
@@ -64,11 +55,8 @@ const mapStateToProps = (state) => { //контейнерный компонен
 
 export default connect(mapStateToProps,
     {
-        follow: followAC,
-        unFollow: unFollowAC,
-        setUsers: setUsersAC,
-        setUsersTotalCount: setUsersTotalCountAC,
-        setCurrentPage: setCurrentPageAC,
-        toggleIsFetching: toggleIsFetchingAC
+        follow: followAC, unFollow: unFollowAC,
+        setUsers: setUsersAC, setUsersTotalCount: setUsersTotalCountAC,
+        setCurrentPage: setCurrentPageAC, toggleIsFetching: toggleIsFetchingAC
     })
 (UsersAPIComponent);
