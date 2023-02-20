@@ -1,11 +1,10 @@
 import React from "react";
 import UserProfile from "./UserProfile";
-import axios from "axios";
 import {setUserProfileAC} from "../../../redux/users-reducer";
 import {connect} from "react-redux";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import Preloader from "../../common/Preloader/Preloader";
-import {profileAPI, usersAPI} from "../../../api/api";
+import {profileAPI} from "../../../api/api";
 
 function withRouter(Component) {
     function ComponentWithRouterProp(props) {
