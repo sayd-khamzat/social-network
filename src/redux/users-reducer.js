@@ -134,7 +134,6 @@ export const getUserProfileTC = (userId) => (dispatch) => {
         .then(data => {
             dispatch(setUserProfileAC(data));
         })
-
 }
 
 export default usersReducer;
