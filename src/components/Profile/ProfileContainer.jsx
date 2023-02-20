@@ -1,16 +1,14 @@
 import React from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {setMyProfileAC} from "../../redux/profile-reducer";
+import {getMyProfileTC} from "../../redux/profile-reducer";
 import Preloader from "../common/Preloader/Preloader";
-import {profileAPI} from "../../api/api";
 
 class ProfileContainer extends React.Component {
 
     componentDidMount() {
         const userId = this.props.userId;
-        profileAPI.getProfile(userId)
-            .then(data => this.props.setMyProfile(data))
+        this.props.getMyProfile(userId)
     }
 
     render() {
@@ -28,5 +26,5 @@ const mapStateToProps = (state) => ({
 })
 
 export default connect(mapStateToProps,
-    {setMyProfile: setMyProfileAC})
+    {getMyProfile: getMyProfileTC})
 (ProfileContainer);

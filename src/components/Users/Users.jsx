@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./Users.module.css"
 import userPhoto from "../../assets/images/userPhoto.jpg"
 import {NavLink} from "react-router-dom";
-import {usersAPI} from "../../api/api";
 
 const Users = (props) => {
 
@@ -20,7 +19,7 @@ const Users = (props) => {
     return (
         <div>
             {props.users.map(user => (
-                <div className={styles.usersBlock} key={user.id}>
+                <div key={user.id} className={styles.usersBlock}>
                     <div>
                         <NavLink to={'/users/' + user.id}>
                             <img src={user.photos.small
@@ -35,29 +34,11 @@ const Users = (props) => {
                     </div>
                     <div>
                         {!user.followed
+                            ? <button disabled={props.followingInProgress.some(u => u === user.id)}
+                                      onClick={() => {props.follow(user.id)}}>Follow</button>
 
-                            ? <button disabled={props.followingInProgress.some(u => u === user.id)} onClick={() => {
-                                props.toggleIsFollowingProgress(true, user.id)
-                                usersAPI.follow(user.id)
-                                    .then(data => {
-                                        if (data.resultCode === 0) {
-                                            props.follow(user.id)
-                                        }
-                                        props.toggleIsFollowingProgress(false, user.id)
-                                    })
-                            }}>Follow</button>
-
-                            : <button disabled={props.followingInProgress.some(u => u === user.id)} onClick={() => {
-                                props.toggleIsFollowingProgress(true, user.id)
-                                usersAPI.unFollow(user.id)
-                                    .then(data => {
-                                        if (data.resultCode === 0) {
-                                            props.unFollow(user.id)
-                                        }
-                                        props.toggleIsFollowingProgress(false, user.id)
-                                    })
-                            }}>UnFollow</button>}
-
+                            : <button disabled={props.followingInProgress.some(u => u === user.id)}
+                                      onClick={() => {props.unFollow(user.id)}}>UnFollow</button>}
                         <div>
                             user.location.country
                             <br/>
@@ -68,9 +49,8 @@ const Users = (props) => {
             ))}
             <div className={styles.paginationBlock}>
                 {slicedPages.map(page =>
-                    <button className={props.currentPage === page && styles.pageNumberActive}
-                            onClick={() => props.onPageChanged(page)}>
-                        {page}</button>)}
+                    <button key={page} className={props.currentPage === page ? styles.pageNumberActive : null}
+                            onClick={() => props.onPageChanged(page)}>{page}</button>)}
             </div>
         </div>
     );

@@ -1,3 +1,5 @@
+import {profileAPI, usersAPI} from "../api/api";
+
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
@@ -84,5 +86,55 @@ export const setCurrentPageAC = (pageNumber) => ({type: SET_CURRENT_PAGE, pageNu
 export const toggleIsFetchingAC = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching});
 export const setUserProfileAC = (userProfile) => ({type: SET_USER_PROFILE, userProfile});
 export const toggleIsFollowingProgressAC = (followingInProgress, userId) => ({type: TOGGLE_IS_FOLLOWING_PROGRESS, followingInProgress, userId});
+
+export const getUsersTC = (pageSize, currentPage) => (dispatch) => {
+    dispatch(toggleIsFetchingAC(true));
+    usersAPI.getUsers(pageSize, currentPage)
+        .then(data => {
+            dispatch(setUsersAC(data.items));
+            dispatch(setUsersTotalCountAC(data.totalCount));
+            dispatch(toggleIsFetchingAC(false));
+        })
+}
+
+export const pageChangedTC = (pageSize, pageNumber) => (dispatch) => {
+    dispatch(toggleIsFetchingAC(true));
+    dispatch(setCurrentPageAC(pageNumber));
+    usersAPI.getUsers(pageSize, pageNumber)
+        .then(data => {
+            dispatch(setUsersAC(data.items));
+            dispatch(toggleIsFetchingAC(false));
+        })
+}
+
+export const followTC = (userId) => (dispatch) => {
+    dispatch(toggleIsFollowingProgressAC(true, userId));
+    usersAPI.follow(userId)
+        .then(data => {
+            if (data.resultCode === 0) {
+                dispatch(followAC(userId));
+            }
+            dispatch(toggleIsFollowingProgressAC(false, userId));
+        })
+}
+
+export const unFollowTC = (userId) => (dispatch) => {
+    dispatch(toggleIsFollowingProgressAC(true, userId));
+    usersAPI.unFollow(userId)
+        .then(data => {
+            if (data.resultCode === 0) {
+                dispatch(unFollowAC(userId));
+            }
+            dispatch(toggleIsFollowingProgressAC(false, userId));
+        })
+}
+
+export const getUserProfileTC = (userId) => (dispatch) => {
+    profileAPI.getProfile(userId)
+        .then(data => {
+            dispatch(setUserProfileAC(data));
+        })
+
+}
 
 export default usersReducer;
