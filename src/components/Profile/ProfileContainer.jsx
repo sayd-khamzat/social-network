@@ -3,7 +3,7 @@ import Profile from "./Profile";
 import {connect} from "react-redux";
 import {getMyProfileTC} from "../../redux/profile-reducer";
 import Preloader from "../common/Preloader/Preloader";
-import {Navigate} from "react-router-dom";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 class ProfileContainer extends React.Component {
 
@@ -13,9 +13,6 @@ class ProfileContainer extends React.Component {
     }
 
     render() {
-
-        if (!this.props.isAuth) return <Navigate to={'/login'}/>
-
         return (
             (!this.props.myProfile
                 ? <Preloader/>
@@ -26,10 +23,11 @@ class ProfileContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
     myProfile: state.profilePage.myProfile,
-    userId: state.auth.userId,
-    isAuth: state.auth.isAuth
+    userId: state.auth.userId
 })
+
+const withAuthRedirectComponent = withAuthRedirect(ProfileContainer);
 
 export default connect(mapStateToProps,
     {getMyProfile: getMyProfileTC})
-(ProfileContainer);
+(withAuthRedirectComponent);
