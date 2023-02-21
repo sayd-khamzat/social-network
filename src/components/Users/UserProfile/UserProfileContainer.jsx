@@ -4,6 +4,7 @@ import {getUserProfileTC} from "../../../redux/users-reducer";
 import {connect} from "react-redux";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import Preloader from "../../common/Preloader/Preloader";
+import {compose} from "redux";
 
 function withRouter(Component) {
     function ComponentWithRouterProp(props) {
@@ -37,8 +38,6 @@ const mapStateToProps = (state) => ({
     userProfile: state.usersPage.userProfile
 })
 
-const UserProfileContainerWithRouter = withRouter(UserProfileContainer)
-
-export default connect(mapStateToProps,
-    {getUserProfile: getUserProfileTC})
-(UserProfileContainerWithRouter);
+export default compose
+(connect(mapStateToProps,{getUserProfile: getUserProfileTC}),
+    withRouter)(UserProfileContainer);
