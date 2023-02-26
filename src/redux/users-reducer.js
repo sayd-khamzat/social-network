@@ -8,6 +8,7 @@ const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS';
+const SET_USER_STATUS = 'SET_USER_STATUS';
 
 const initialState = {
     users: [],
@@ -16,7 +17,8 @@ const initialState = {
     currentPage: 1,
     isFetching: false,
     userProfile: null,
-    followingInProgress: []
+    followingInProgress: [],
+    userStatus: ""
 }
 
 const usersReducer = (state = initialState, action) => {
@@ -73,6 +75,11 @@ const usersReducer = (state = initialState, action) => {
                     ? [...state.followingInProgress, action.userId]
                     : state.followingInProgress.filter(id => id != action.userId)
             }
+        case SET_USER_STATUS:
+            return {
+                ...state,
+                userStatus: action.status
+            }
         default:
             return state;
     }
@@ -86,6 +93,7 @@ export const setCurrentPageAC = (pageNumber) => ({type: SET_CURRENT_PAGE, pageNu
 export const toggleIsFetchingAC = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching});
 export const setUserProfileAC = (userProfile) => ({type: SET_USER_PROFILE, userProfile});
 export const toggleIsFollowingProgressAC = (followingInProgress, userId) => ({type: TOGGLE_IS_FOLLOWING_PROGRESS, followingInProgress, userId});
+export const setUserStatusAC = (status) => ({type: SET_USER_STATUS, status});
 
 export const getUsersTC = (pageSize, currentPage) => (dispatch) => {
     dispatch(toggleIsFetchingAC(true));
@@ -131,9 +139,12 @@ export const unFollowTC = (userId) => (dispatch) => {
 
 export const getUserProfileTC = (userId) => (dispatch) => {
     profileAPI.getProfile(userId)
-        .then(data => {
-            dispatch(setUserProfileAC(data));
-        })
+        .then(data => dispatch(setUserProfileAC(data)));
+}
+
+export const getUserStatusTC = (userId) => (dispatch) => {
+    profileAPI.getStatus(userId)
+        .then(data => dispatch(setUserStatusAC(data)));
 }
 
 export default usersReducer;

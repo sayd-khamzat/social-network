@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import Preloader from "../../common/Preloader/Preloader";
 import {compose} from "redux";
+import {getUserStatusTC} from "../../../redux/users-reducer";
 
 function withRouter(Component) {
     function ComponentWithRouterProp(props) {
@@ -23,21 +24,25 @@ class UserProfileContainer extends React.Component {
     componentDidMount() {
         const userId = this.props.router.params.userId
         this.props.getUserProfile(userId)
+        this.props.getUserStatus(userId)
     }
 
     render() {
         return (
             (!this.props.userProfile
                 ? <Preloader/>
-                : <UserProfile userProfile={this.props.userProfile}/>)
+                : <UserProfile userProfile={this.props.userProfile}
+                               userStatus={this.props.userStatus}/>)
         );
     }
 }
 
 const mapStateToProps = (state) => ({
-    userProfile: state.usersPage.userProfile
+    userProfile: state.usersPage.userProfile,
+    userStatus: state.usersPage.userStatus
 })
 
 export default compose
-(connect(mapStateToProps,{getUserProfile: getUserProfileTC}),
+(connect(mapStateToProps,{getUserProfile: getUserProfileTC,
+    getUserStatus: getUserStatusTC}),
     withRouter)(UserProfileContainer);

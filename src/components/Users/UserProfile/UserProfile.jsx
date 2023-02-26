@@ -15,6 +15,8 @@ const UserProfile = (props) => {
             </div>
             <div>
                 {userProfile.fullName}
+                <br/>
+                {props.userStatus}
             </div>
         </div>
     )
