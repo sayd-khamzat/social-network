@@ -1,12 +1,12 @@
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
-import {getUserDataTC} from "../../redux/auth-reducer";
+import {getAuthUserDataTC} from "../../redux/auth-reducer";
 import Header from "./Header";
 
 const HeaderContainer = (props) => {
 
     useEffect(() => {
-        props.getUserData();
+        props.getAuthUserData();
     }, [])
 
     return (
@@ -20,5 +20,5 @@ const mapStateToProps = (state) => ({
 })
 
 export default connect(mapStateToProps,
-    {getUserData: getUserDataTC})
+    {getAuthUserData: getAuthUserDataTC})
 (HeaderContainer);
