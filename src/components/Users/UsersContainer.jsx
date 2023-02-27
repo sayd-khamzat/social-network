@@ -1,37 +1,35 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import {followTC, getUsersTC, pageChangedTC, unFollowTC} from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 
-class UsersAPIComponent extends React.Component { //контейнерный компонент для Users
+const UsersContainer = (props) => {
 
-    componentDidMount() {
-        this.props.getUsers(this.props.pageSize, this.props.currentPage)
+    useEffect(() => {
+        props.getUsers(props.pageSize, props.currentPage);
+        }, [])
+
+    const onPageChanged = (pageNumber) => {
+        props.pageChanged(props.pageSize, pageNumber);
     }
 
-    onPageChanged = (pageNumber) => {
-        this.props.pageChanged(this.props.pageSize, pageNumber)
-    }
-
-    render() {
-        return (
-            <>
-                {this.props.isFetching && <Preloader/>}
-                <Users users={this.props.users}
-                       currentPage={this.props.currentPage}
-                       totalItemsCount={this.props.totalItemsCount}
-                       pageSize={this.props.pageSize}
-                       follow={this.props.follow}
-                       unFollow={this.props.unFollow}
-                       onPageChanged={this.onPageChanged}
-                       followingInProgress={this.props.followingInProgress}/>
-            </>
-        );
-    }
+    return (
+        <>
+            {props.isFetching && <Preloader/>}
+            <Users users={props.users}
+                   currentPage={props.currentPage}
+                   totalItemsCount={props.totalItemsCount}
+                   pageSize={props.pageSize}
+                   follow={props.follow}
+                   unFollow={props.unFollow}
+                   onPageChanged={onPageChanged}
+                   followingInProgress={props.followingInProgress}/>
+        </>
+    );
 }
 
-const mapStateToProps = (state) => { //контейнерный компонент для UsersAPIComponent
+const mapStateToProps = (state) => {
     return {
         users: state.usersPage.users,
         totalItemsCount: state.usersPage.totalItemsCount,
@@ -43,6 +41,8 @@ const mapStateToProps = (state) => { //контейнерный компонен
 }
 
 export default connect(mapStateToProps,
-    {getUsers: getUsersTC, pageChanged: pageChangedTC,
-        follow: followTC,unFollow: unFollowTC})
-(UsersAPIComponent);
+    {
+        getUsers: getUsersTC, pageChanged: pageChangedTC,
+        follow: followTC, unFollow: unFollowTC
+    })
+(UsersContainer);

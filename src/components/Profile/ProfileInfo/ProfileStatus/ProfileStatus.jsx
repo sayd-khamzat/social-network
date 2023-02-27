@@ -6,10 +6,6 @@ const ProfileStatus = (props) => {
     const [status, setStatus] = useState(props.status);
 
     useEffect(() => {
-        props.getMyStatus();
-    }, [props.status])
-
-    useEffect(() => {
         setStatus(props.status);
     }, [props.status])
 
@@ -30,7 +26,7 @@ const ProfileStatus = (props) => {
         <div>
             {!editMode &&
                 <div>
-                    <span onDoubleClick={activateEditMode}>{status || 'Нет статуса'}</span>
+                    <span onDoubleClick={activateEditMode}>{props.status || 'Нет статуса'}</span>
                 </div>
             }
             {editMode &&

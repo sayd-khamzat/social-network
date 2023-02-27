@@ -5,7 +5,7 @@ import ProfileStatus from "./ProfileStatus/ProfileStatus";
 
 const ProfileInfo = (props) => {
 
-    const myProfile = props.myProfile
+    const myProfile = props.myProfile;
 
     return (
         <div className={styles.profileBlock}>
@@ -19,7 +19,6 @@ const ProfileInfo = (props) => {
             </div>
             <div>
                 <ProfileStatus status={props.myStatus}
-                               getMyStatus={props.getMyStatus}
                                updateStatus={props.updateStatus}/>
             </div>
         </div>

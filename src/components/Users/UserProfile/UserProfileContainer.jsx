@@ -1,40 +1,26 @@
-import React from "react";
+import React, {useEffect} from "react";
 import UserProfile from "./UserProfile";
 import {getUserProfileTC} from "../../../redux/users-reducer";
 import {connect} from "react-redux";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import Preloader from "../../common/Preloader/Preloader";
-import {compose} from "redux";
 import {getUserStatusTC} from "../../../redux/users-reducer";
 
-function withRouter(Component) {
-    function ComponentWithRouterProp(props) {
-        let location = useLocation();
-        let navigate = useNavigate();
-        let params = useParams();
-        return (
-            <Component {...props} router={{ location, navigate, params }}/>
-        );
-    }
-    return ComponentWithRouterProp;
-}
+const UserProfileContainer = (props) => {
 
-class UserProfileContainer extends React.Component {
+    const {userId} = useParams();
 
-    componentDidMount() {
-        const userId = this.props.router.params.userId
-        this.props.getUserProfile(userId)
-        this.props.getUserStatus(userId)
-    }
+    useEffect(() => {
+        props.getUserProfile(userId);
+        props.getUserStatus(userId)
+    }, [])
 
-    render() {
-        return (
-            (!this.props.userProfile
-                ? <Preloader/>
-                : <UserProfile userProfile={this.props.userProfile}
-                               userStatus={this.props.userStatus}/>)
-        );
-    }
+    return (
+        (!props.userProfile
+            ? <Preloader/>
+            : <UserProfile userProfile={props.userProfile}
+                           userStatus={props.userStatus}/>)
+    );
 }
 
 const mapStateToProps = (state) => ({
@@ -42,7 +28,8 @@ const mapStateToProps = (state) => ({
     userStatus: state.usersPage.userStatus
 })
 
-export default compose
-(connect(mapStateToProps,{getUserProfile: getUserProfileTC,
-    getUserStatus: getUserStatusTC}),
-    withRouter)(UserProfileContainer);
+export default connect(mapStateToProps, {
+        getUserProfile: getUserProfileTC,
+        getUserStatus: getUserStatusTC
+    })
+(UserProfileContainer);
