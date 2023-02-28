@@ -15,7 +15,6 @@ const Header = (props) => {
                         <button>Sign In</button>
                     </NavLink>
                     : <div>
-                        <Navigate to={"/profile"}/>
                         <div>
                             {props.login}
                         </div>
