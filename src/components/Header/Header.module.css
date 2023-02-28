@@ -1,6 +1,6 @@
 .header {
     grid-area: h;
-    background-color: green;
+    background-color: darkslategrey;
 }
 
 .appLogo {
@@ -28,9 +28,11 @@
     cursor: default;
     font-size: 15px;
     margin-right: 20px;
+    margin-top: -20px;
+    color: white;
 }
 
 .loginBlock a {
-    color: black;
+    color: white;
     text-decoration: none;
 }
