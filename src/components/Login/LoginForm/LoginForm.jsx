@@ -1,7 +1,9 @@
 import React from "react";
 import {Field, reduxForm} from "redux-form";
-import {Input} from "../../common/FormControls/FormControls";
+import {FormControl} from "../../common/FormControls/FormControls";
 import {required} from "../../../utils/validators/validators";
+
+const Input = FormControl("input");
 
 const LoginForm = (props) => {
     return (
