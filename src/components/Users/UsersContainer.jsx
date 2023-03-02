@@ -3,6 +3,13 @@ import {connect} from "react-redux";
 import {followTC, getUsersTC, pageChangedTC, unFollowTC} from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
+import {
+    getCurrentPage, getFollowingInProgress,
+    getIsFetching,
+    getPageSize,
+    getTotalItemsCount,
+    getUsers
+} from "../../redux/selectors/users-selectors";
 
 const UsersContainer = (props) => {
 
@@ -31,12 +38,12 @@ const UsersContainer = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        users: state.usersPage.users,
-        totalItemsCount: state.usersPage.totalItemsCount,
-        pageSize: state.usersPage.pageSize,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress
+        users: getUsers(state),
+        totalItemsCount: getTotalItemsCount(state),
+        pageSize: getPageSize(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state)
     }
 }
 
