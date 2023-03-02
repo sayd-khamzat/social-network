@@ -1,3 +1,10 @@
 .loginBlock {
     text-align: center;
 }
+
+.formSummaryError {
+    color: white;
+    background-color: red;
+    padding: 2px;
+    border-radius: 5px;
+}
