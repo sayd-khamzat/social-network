@@ -18,7 +18,8 @@ function App(props) {
         props.initializedApp();
     }, [])
 
-    if (!props.initializedApp) {
+    if (!props.initialized) {
+        debugger
         return <Preloader/>
     }
     return (
@@ -40,7 +41,7 @@ function App(props) {
 
 const mapStateToProps = (state) => {
     return {
-        initializedApp: state.app.initializedApp
+        initialized: state.app.initialized
     }
 }
 
