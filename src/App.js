@@ -7,8 +7,20 @@ import UserProfileContainer from "./components/Users/UserProfile/UserProfileCont
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import Login from "./components/Login/Login";
 import HeaderContainer from "./components/Header/HeaderContainer";
+import {useEffect} from "react";
+import {connect} from "react-redux";
+import {initializedAppTC} from "./redux/app-reducer";
+import Preloader from "./components/common/Preloader/Preloader";
 
-function App() {
+function App(props) {
+
+    useEffect(() => {
+        props.initializedApp();
+    }, [])
+
+    if (!props.initializedApp) {
+        return <Preloader/>
+    }
     return (
         <div className='app-wrapper'>
             <HeaderContainer/>
@@ -26,4 +38,10 @@ function App() {
     );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        initializedApp: state.app.initializedApp
+    }
+}
+
+export default connect(mapStateToProps, {initializedApp: initializedAppTC})(App);
