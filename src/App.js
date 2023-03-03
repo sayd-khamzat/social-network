@@ -19,7 +19,6 @@ function App(props) {
     }, [])
 
     if (!props.initialized) {
-        debugger
         return <Preloader/>
     }
     return (
