@@ -40,23 +40,23 @@ export const addPostAC = (postText) => ({type: ADD_POST, postText});
 export const setMyProfileAC = (myProfile) => ({type: SET_MY_PROFILE, myProfile});
 export const setMyStatusAC = (status) => ({type: SET_MY_STATUS, status});
 
-export const getMyProfileTC = () => (dispatch, getState) => {
-    profileAPI.getProfile(getState().auth.userId)
-        .then(data => dispatch(setMyProfileAC(data)));
+export const getMyProfileTC = () => async (dispatch, getState) => {
+    const userId = getState().auth.userId;
+    const response = await profileAPI.getProfile(userId);
+    dispatch(setMyProfileAC(response));
 }
 
-export const getMyStatusTC = () => (dispatch, getState) => {
-    profileAPI.getStatus(getState().auth.userId)
-        .then(data => dispatch(setMyStatusAC(data)));
+export const getMyStatusTC = () => async (dispatch, getState) => {
+    const userId = getState().auth.userId;
+    const response = await profileAPI.getStatus(userId);
+    dispatch(setMyStatusAC(response));
 }
 
-export const updateStatusTC = (status) => (dispatch) => {
-    profileAPI.updateStatus(status)
-        .then(data => {
-            if (data.resultCode === 0) {
-                dispatch(getMyStatusTC());
-            }
-        })
+export const updateStatusTC = (status) => async (dispatch) => {
+    const response = await profileAPI.updateStatus(status);
+    if (response.resultCode === 0) {
+        dispatch(getMyStatusTC());
+    }
 }
 
 export default profileReducer;

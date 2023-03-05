@@ -95,56 +95,48 @@ export const setUserProfileAC = (userProfile) => ({type: SET_USER_PROFILE, userP
 export const toggleIsFollowingProgressAC = (followingInProgress, userId) => ({type: TOGGLE_IS_FOLLOWING_PROGRESS, followingInProgress, userId});
 export const setUserStatusAC = (status) => ({type: SET_USER_STATUS, status});
 
-export const getUsersTC = (pageSize, currentPage) => (dispatch) => {
+export const getUsersTC = (pageSize, currentPage) => async (dispatch) => {
     dispatch(toggleIsFetchingAC(true));
-    usersAPI.getUsers(pageSize, currentPage)
-        .then(data => {
-            dispatch(setUsersAC(data.items));
-            dispatch(setUsersTotalCountAC(data.totalCount));
-            dispatch(toggleIsFetchingAC(false));
-        })
+    const response = await usersAPI.getUsers(pageSize, currentPage);
+    dispatch(setUsersAC(response.items));
+    dispatch(setUsersTotalCountAC(response.totalCount));
+    dispatch(toggleIsFetchingAC(false));
 }
 
-export const pageChangedTC = (pageSize, pageNumber) => (dispatch) => {
+export const pageChangedTC = (pageSize, pageNumber) => async (dispatch) => {
     dispatch(toggleIsFetchingAC(true));
     dispatch(setCurrentPageAC(pageNumber));
-    usersAPI.getUsers(pageSize, pageNumber)
-        .then(data => {
-            dispatch(setUsersAC(data.items));
-            dispatch(toggleIsFetchingAC(false));
-        })
+    const response = await usersAPI.getUsers(pageSize, pageNumber);
+    dispatch(setUsersAC(response.items));
+    dispatch(toggleIsFetchingAC(false));
 }
 
-export const followTC = (userId) => (dispatch) => {
+export const followTC = (userId) => async (dispatch) => {
     dispatch(toggleIsFollowingProgressAC(true, userId));
-    usersAPI.follow(userId)
-        .then(data => {
-            if (data.resultCode === 0) {
-                dispatch(followAC(userId));
-            }
-            dispatch(toggleIsFollowingProgressAC(false, userId));
-        })
+    const response = await usersAPI.follow(userId);
+    if (response.resultCode === 0) {
+        dispatch(followAC(userId));
+    }
+    dispatch(toggleIsFollowingProgressAC(false, userId));
 }
 
-export const unFollowTC = (userId) => (dispatch) => {
+export const unFollowTC = (userId) => async (dispatch) => {
     dispatch(toggleIsFollowingProgressAC(true, userId));
-    usersAPI.unFollow(userId)
-        .then(data => {
-            if (data.resultCode === 0) {
-                dispatch(unFollowAC(userId));
-            }
-            dispatch(toggleIsFollowingProgressAC(false, userId));
-        })
+    const response = await usersAPI.unFollow(userId);
+    if (response.resultCode === 0) {
+        dispatch(unFollowAC(userId));
+    }
+    dispatch(toggleIsFollowingProgressAC(false, userId));
 }
 
-export const getUserProfileTC = (userId) => (dispatch) => {
-    profileAPI.getProfile(userId)
-        .then(data => dispatch(setUserProfileAC(data)));
+export const getUserProfileTC = (userId) => async (dispatch) => {
+    const response = await profileAPI.getProfile(userId);
+    dispatch(setUserProfileAC(response));
 }
 
-export const getUserStatusTC = (userId) => (dispatch) => {
-    profileAPI.getStatus(userId)
-        .then(data => dispatch(setUserStatusAC(data)));
+export const getUserStatusTC = (userId) => async (dispatch) => {
+    const response = await profileAPI.getStatus(userId);
+    dispatch(setUserStatusAC(response));
 }
 
 export default usersReducer;
