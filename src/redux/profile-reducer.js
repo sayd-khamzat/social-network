@@ -1,8 +1,8 @@
 import {profileAPI} from "../api/api";
 
-const ADD_POST = 'ADD_POST';
-const SET_MY_PROFILE = 'SET_MY_PROFILE';
-const SET_MY_STATUS = 'SET_MY_STATUS';
+const ADD_POST = 'profile/ADD_POST';
+const SET_MY_PROFILE = 'profile/SET_MY_PROFILE';
+const SET_MY_STATUS = 'profile/SET_MY_STATUS';
 
 const initialState = {
     postsData: [
