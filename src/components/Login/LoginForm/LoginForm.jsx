@@ -6,9 +6,9 @@ import styles from "../Login.module.css";
 
 const Input = FormControl("input");
 
-const LoginForm = (props) => {
+const LoginForm = ({handleSubmit, error}) => {
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <div>
                 <Field name="email" component={Input}
                        placeholder="Email" type="email"
@@ -23,9 +23,9 @@ const LoginForm = (props) => {
                 <Field name="rememberMe" component="input"
                        placeholder="Password" type="checkbox"/>
             </div>
-            {props.error &&
+            {error &&
                 <span className={styles.formSummaryError}>
-                    {props.error}
+                    {error}
                 </span>
             }
             <div>

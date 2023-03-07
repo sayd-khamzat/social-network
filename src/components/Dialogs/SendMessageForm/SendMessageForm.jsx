@@ -6,9 +6,9 @@ import {FormControl} from "../../common/FormControls/FormControls";
 const Textarea = FormControl("textarea");
 const maxLength30 = maxLengthCreator(30);
 
-const SendMessageForm = (props) => {
+const SendMessageForm = ({handleSubmit}) => {
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <div>
                 <Field name="newMessage" component={Textarea}
                        type="text" placeholder="Enter message"

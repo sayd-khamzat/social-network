@@ -111,20 +111,37 @@ export const pageChangedTC = (pageSize, pageNumber) => async (dispatch) => {
     dispatch(toggleIsFetchingAC(false));
 }
 
+// export const followTC = (userId) => async (dispatch) => {
+//     dispatch(toggleIsFollowingProgressAC(true, userId));
+//     const response = await usersAPI.follow(userId);
+//     if (response.resultCode === 0) {
+//         dispatch(followAC(userId));
+//     }
+//     dispatch(toggleIsFollowingProgressAC(false, userId));
+// }
+//
+// export const unFollowTC = (userId) => async (dispatch) => {
+//     dispatch(toggleIsFollowingProgressAC(true, userId));
+//     const response = await usersAPI.unFollow(userId);
+//     if (response.resultCode === 0) {
+//         dispatch(unFollowAC(userId));
+//     }
+//     dispatch(toggleIsFollowingProgressAC(false, userId));
+// }
+
 export const followTC = (userId) => async (dispatch) => {
-    dispatch(toggleIsFollowingProgressAC(true, userId));
-    const response = await usersAPI.follow(userId);
-    if (response.resultCode === 0) {
-        dispatch(followAC(userId));
-    }
-    dispatch(toggleIsFollowingProgressAC(false, userId));
+    await followUnfollowFlow(userId, dispatch, usersAPI.follow, followAC);
 }
 
 export const unFollowTC = (userId) => async (dispatch) => {
+    await followUnfollowFlow(userId, dispatch, usersAPI.unFollow, unFollowAC);
+}
+
+const followUnfollowFlow = async (userId, dispatch, apiMethod, actionCreator) => {
     dispatch(toggleIsFollowingProgressAC(true, userId));
-    const response = await usersAPI.unFollow(userId);
+    const response = await apiMethod(userId);
     if (response.resultCode === 0) {
-        dispatch(unFollowAC(userId));
+        dispatch(actionCreator(userId));
     }
     dispatch(toggleIsFollowingProgressAC(false, userId));
 }

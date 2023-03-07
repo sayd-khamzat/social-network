@@ -6,9 +6,9 @@ import {FormControl} from "../../../common/FormControls/FormControls";
 const Textarea = FormControl("textarea");
 const maxLength10 = maxLengthCreator(10);
 
-const AddPostForm = (props) => {
+const AddPostForm = ({handleSubmit}) => {
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <div>
                 <Field name="postText" component={Textarea}
                        type="text" placeholder="New post"

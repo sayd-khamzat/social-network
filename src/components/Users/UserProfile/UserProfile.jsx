@@ -2,10 +2,7 @@ import React from "react";
 import userPhoto from "../../../assets/images/userPhoto.jpg"
 import styles from "./UserProfile.module.css"
 
-const UserProfile = (props) => {
-
-    const userProfile = props.userProfile
-
+const UserProfile = ({userProfile, userStatus}) => {
     return (
         <div className={styles.profileBlock}>
             <div>
@@ -16,7 +13,7 @@ const UserProfile = (props) => {
             <div>
                 {userProfile.fullName}
                 <br/>
-                {props.userStatus}
+                {userStatus}
             </div>
         </div>
     )
