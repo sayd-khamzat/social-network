@@ -13,7 +13,7 @@ const SET_USER_STATUS = 'users/SET_USER_STATUS';
 const initialState = {
     users: [],
     totalItemsCount: 0,
-    pageSize: 5,
+    pageSize: 10,
     currentPage: 1,
     isFetching: false,
     userProfile: null,
