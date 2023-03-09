@@ -7,6 +7,12 @@ const ProfileInfo = (props) => {
 
     const myProfile = props.myProfile;
 
+    const mainPhotoSelected = (e) => {
+        if (e.target.files.length > 0) {
+            props.savePhoto(e.target.files[0]);
+        }
+    }
+
     return (
         <div className={styles.profileBlock}>
             <div>
@@ -14,6 +20,7 @@ const ProfileInfo = (props) => {
                     ? myProfile.photos.small
                     : userPhoto}/>
             </div>
+            <input type="file" onChange={mainPhotoSelected}/>
             <div>
                 {myProfile.fullName}
             </div>
