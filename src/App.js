@@ -1,7 +1,7 @@
 import './App.css';
 import React from "react";
 import Navbar from "./components/Navbar/Navbar";
-import {Routes, Route} from "react-router-dom";
+import {Routes, Route, Navigate} from "react-router-dom";
 import UsersContainer from "./components/Users/UsersContainer";
 import UserProfileContainer from "./components/Users/UserProfile/UserProfileContainer";
 import Login from "./components/Login/Login";
@@ -30,11 +30,13 @@ function App(props) {
                 <Navbar/>
                 <div className='app-wrapper-content'>
                     <Routes>
+                        <Route path="/" element={<Navigate to='/profile' />} />
                         <Route path='/profile' element={<ProfileContainer/>}/>
                         <Route path='/dialogs/*' element={<DialogsContainer/>}/>
                         <Route path='/users' element={<UsersContainer/>}/>
                         <Route path='/users/:userId?' element={<UserProfileContainer/>}/>
                         <Route path='/login' element={<Login/>}/>
+                        <Route path='*' element={<div>404 NOT FOUND</div>}/>
                     </Routes>
                 </div>
             </React.Suspense>
