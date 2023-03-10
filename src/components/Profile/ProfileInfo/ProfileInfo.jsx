@@ -1,16 +1,24 @@
-import React from "react";
+import React, {useState} from "react";
 import styles from "./ProfileInfo.module.css";
 import userPhoto from "../../../assets/images/userPhoto.jpg";
 import ProfileStatus from "./ProfileStatus/ProfileStatus";
+import ProfileData from "./ProfileData/ProfileData";
+import ProfileDataForm from "./ProfileDataForm/ProfileDataForm";
 
-const ProfileInfo = (props) => {
+const ProfileInfo = ({myProfile, myStatus, updateStatus, savePhoto, saveProfile}) => {
 
-    const myProfile = props.myProfile;
+    const [editMode, setEditMode] = useState(false);
 
     const mainPhotoSelected = (e) => {
         if (e.target.files.length > 0) {
-            props.savePhoto(e.target.files[0]);
+            savePhoto(e.target.files[0]);
         }
+    }
+
+    const onSubmit = (formData) => {
+        saveProfile(formData).then(() => {
+            setEditMode(false);
+        })
     }
 
     return (
@@ -19,17 +27,20 @@ const ProfileInfo = (props) => {
                 <img src={myProfile.photos.small
                     ? myProfile.photos.small
                     : userPhoto}/>
-            </div>
-            <input type="file" onChange={mainPhotoSelected}/>
-            <div>
-                {myProfile.fullName}
+                <input type="file" onChange={mainPhotoSelected}/>
             </div>
             <div>
-                <ProfileStatus status={props.myStatus}
-                               updateStatus={props.updateStatus}/>
+                <p className={styles.userName}>{myProfile.fullName}</p>
+                <div>
+                    {editMode
+                        ? <ProfileDataForm initialValues={myProfile} myProfile={myProfile} onSubmit={onSubmit}/>
+                        : <ProfileData myProfile={myProfile} goToEditMode={setEditMode}/>
+                    }
+                </div>
             </div>
+            <ProfileStatus status={myStatus} updateStatus={updateStatus}/>
         </div>
-    )
+    );
 }
 
 export default ProfileInfo;
