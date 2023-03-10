@@ -6,7 +6,7 @@ import styles from "../Login.module.css";
 
 const Input = FormControl("input");
 
-const LoginForm = ({handleSubmit, error}) => {
+const LoginForm = ({handleSubmit, error, captchaUrl}) => {
     return (
         <form onSubmit={handleSubmit}>
             <div>
@@ -22,12 +22,16 @@ const LoginForm = ({handleSubmit, error}) => {
             <div>
                 <Field name="rememberMe" component="input"
                        placeholder="Password" type="checkbox"/>
+                <div>Remember Me</div>
             </div>
-            {error &&
-                <span className={styles.formSummaryError}>
-                    {error}
-                </span>
-            }
+
+            {captchaUrl && <img src={captchaUrl} alt="captcha"/>}
+            {captchaUrl && <Field name="captcha" component={Input}
+                                  placeholder="Symbols from image"
+                                  validate={required}/>}
+
+            {error && <span className={styles.formSummaryError}>{error}</span>}
+
             <div>
                 <button>Log in</button>
             </div>

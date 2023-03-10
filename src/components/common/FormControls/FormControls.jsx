@@ -10,9 +10,7 @@ export const Textarea = ({input, meta, ...props}) => {//input и meta прихо
         <div className={styles.formControl + " " + (hasError ? styles.error : "")}>
             <div>
                 <textarea {...input} {...props}/>
-                {hasError &&
-                    <span>{meta.error}</span>
-                }
+                {hasError && <span>{meta.error}</span>}
             </div>
         </div>
     );
@@ -26,9 +24,7 @@ export const Input = ({input, meta, ...props}) => {
         <div className={styles.formControl + " " + (hasError ? styles.error : "")}>
             <div>
                 <input {...input} {...props}/>
-                {hasError &&
-                    <span>{meta.error}</span>
-                }
+                {hasError && <span>{meta.error}</span>}
             </div>
         </div>
     );
@@ -44,9 +40,7 @@ export const FormControl = (Element) => ({input, meta, ...props}) => {
         <div className={styles.formControl + " " + (hasError ? styles.error : "")}>
             <div>
                 <Element {...input} {...props}/>
-                {hasError &&
-                    <span>{meta.error}</span>
-                }
+                {hasError && <span>{meta.error}</span>}
             </div>
         </div>
     );

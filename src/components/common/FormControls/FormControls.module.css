@@ -1,5 +1,8 @@
 .formControl textarea, input{
     border-radius: 5px;
+    width: 250px;
+    height: 25px;
+    margin: 5px;
 }
 
 .formControl.error input,
