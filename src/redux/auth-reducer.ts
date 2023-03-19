@@ -22,7 +22,7 @@ const initialState = {
 
 type InitialStateType = typeof initialState
 
-const authReducer = (state = initialState, action: ActionsType): InitialStateType => {
+const authReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         case USER_DATA:
             return {
@@ -39,7 +39,7 @@ const authReducer = (state = initialState, action: ActionsType): InitialStateTyp
     }
 }
 
-type ActionsType = SetUserDataType | GetCaptchaUrlSuccessType
+type ActionsTypes = SetUserDataType | GetCaptchaUrlSuccessType
 
 type SetUserDataType = {
     type: typeof USER_DATA

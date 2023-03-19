@@ -10,7 +10,7 @@ const initialState: InitialStateType = {
     initialized: false
 }
 
-export default function AppReducer (state = initialState, action: ActionsType) {
+export default function AppReducer (state = initialState, action: ActionsTypes) {
     switch (action.type) {
         case INITIALIZED_SUCCESS:
             return {
@@ -22,7 +22,7 @@ export default function AppReducer (state = initialState, action: ActionsType) {
     }
 }
 
-type ActionsType = InitializedSuccessType
+type ActionsTypes = InitializedSuccessType
 
 type InitializedSuccessType = {
     type: typeof INITIALIZED_SUCCESS // equals 'app/INITIALIZED_SUCCESS'
