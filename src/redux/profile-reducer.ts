@@ -1,11 +1,10 @@
-import {profileAPI} from "../api/api";
-import {stopSubmit} from "redux-form";
-import {PhotosType, PostType, ProfileType} from "../types/types";
+import {stopSubmit} from "redux-form"
+import {PhotosType, PostType, ProfileType} from "../types/types"
+import {BaseThunkType, InferActionsTypes} from "./redux-store"
+import {profileAPI} from "../api/profile-api"
+import {ResultCodesEnum} from "../api/api"
 
-const ADD_POST = 'profile/ADD_POST'
-const SET_MY_PROFILE = 'profile/SET_MY_PROFILE'
-const SET_MY_STATUS = 'profile/SET_MY_STATUS'
-const SAVE_PHOTO = 'profile/SAVE_PHOTO'
+export type InitialStateType = typeof initialState
 
 const initialState = {
     postsData: [
@@ -17,26 +16,24 @@ const initialState = {
     myStatus: ''
 }
 
-type InitialStateType = typeof initialState
-
 const profileReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
-        case ADD_POST:
+        case 'ADD_POST':
             return {
                 ...state,
                 postsData: [...state.postsData, {id: state.postsData.length + 1, message: action.postText, likesCount: 15}]
             }
-        case SET_MY_PROFILE:
+        case 'SET_MY_PROFILE':
             return {
                 ...state,
                 myProfile: action.myProfile
             }
-        case SET_MY_STATUS:
+        case 'SET_MY_STATUS':
             return {
                 ...state,
                 myStatus: action.status
             }
-        case SAVE_PHOTO:
+        case 'SAVE_PHOTO':
             return {
                 ...state,
                 myProfile: {...state.myProfile, photos: action.photos} as ProfileType //так делать нехорошо
@@ -46,64 +43,53 @@ const profileReducer = (state = initialState, action: ActionsTypes): InitialStat
     }
 }
 
-type ActionsTypes = AddPostType | SetMyProfileType | SetMyStatusType | SavePhotoSuccessType
+type ActionsTypes = InferActionsTypes<typeof actions>
 
-type AddPostType = {
-    type: typeof ADD_POST
-    postText: string
-}
-type SetMyProfileType = {
-    type: typeof SET_MY_PROFILE
-    myProfile: ProfileType
-}
-type SetMyStatusType = {
-    type: typeof SET_MY_STATUS
-    status: string
-}
-type SavePhotoSuccessType = {
-    type: typeof SAVE_PHOTO
-    photos: PhotosType
+export const actions = {
+    addPost: (postText: string) => ({type: 'ADD_POST', postText} as const),
+    setMyProfile: (myProfile: ProfileType) => ({type: 'SET_MY_PROFILE', myProfile} as const),
+    setMyStatus: (status: string) => ({type: 'SET_MY_STATUS', status} as const),
+    savePhotoSuccess: (photos: PhotosType) => ({type: 'SAVE_PHOTO', photos} as const)
 }
 
-export const addPostAC = (postText: string): AddPostType => ({type: ADD_POST, postText})
-const setMyProfileAC = (myProfile: ProfileType): SetMyProfileType => ({type: SET_MY_PROFILE, myProfile})
-const setMyStatusAC = (status: string): SetMyStatusType => ({type: SET_MY_STATUS, status})
-const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessType => ({type: SAVE_PHOTO, photos})
+//type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
+type ThunkType = BaseThunkType<ActionsTypes>
 
-export const getMyProfileTC = () => async (dispatch: any, getState: any) => {
+export const getMyProfileTC = (): ThunkType => async (dispatch, getState) => {
     const userId = getState().auth.userId
-    const response = await profileAPI.getProfile(userId)
-    dispatch(setMyProfileAC(response))
+    const data = await profileAPI.getProfile(userId)
+    dispatch(actions.setMyProfile(data))
 }
 
-export const getMyStatusTC = () => async (dispatch: any, getState: any) => {
+export const getMyStatusTC = (): ThunkType => async (dispatch, getState) => {
     const userId = getState().auth.userId
-    const response = await profileAPI.getStatus(userId)
-    dispatch(setMyStatusAC(response))
+    const data = await profileAPI.getStatus(userId)
+    dispatch(actions.setMyStatus(data))
 }
 
-export const updateStatusTC = (status: string) => async (dispatch: any) => {
-    const response = await profileAPI.updateStatus(status)
-    if (response.resultCode === 0) {
+export const updateStatusTC = (status: string): ThunkType => async (dispatch) => {
+    const data = await profileAPI.updateStatus(status)
+    if (data.resultCode === ResultCodesEnum.Success) {
         dispatch(getMyStatusTC())
     }
 }
 
-export const savePhotoTC = (file: any) => async (dispatch: any) => {
-    const response = await profileAPI.savePhoto(file)
-    if (response.data.resultCode === 0) {
-        dispatch(savePhotoSuccess(response.data.data.photos))
+export const savePhotoTC = (file: File): ThunkType => async (dispatch) => {
+    const data = await profileAPI.savePhoto(file)
+    if (data.resultCode === ResultCodesEnum.Success) {
+        dispatch(actions.savePhotoSuccess(data.data.photos))
     }
 }
 
-export const saveProfileTC = (profile: any) => async (dispatch: any) => {
-    const response = await profileAPI.saveProfile(profile)
-    if (response.data.resultCode === 0) {
+export const saveProfileTC = (profile: ProfileType): ThunkType => async (dispatch) => {
+    const data = await profileAPI.saveProfile(profile)
+    if (data.resultCode === ResultCodesEnum.Success) {
         dispatch(getMyProfileTC())
     } else {
         // dispatch(stopSubmit("editProfile", {"contacts": {"facebook": response.data.messages[0]}})) //для определенного поля
-        dispatch(stopSubmit("editProfile", {_error: response.data.messages[0]})) //общая ошибка
-        return Promise.reject(response.data.messages[0])
+        // @ts-ignore
+        dispatch(stopSubmit("editProfile", {_error: data.messages[0]})) //общая ошибка
+        return Promise.reject(data.messages[0])
     }
 }
 

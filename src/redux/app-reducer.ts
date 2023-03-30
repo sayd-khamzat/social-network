@@ -1,18 +1,15 @@
-import {getAuthUserDataTC} from "./auth-reducer";
+import {getAuthUserDataTC} from "./auth-reducer"
+import {InferActionsTypes} from "./redux-store"
 
-const INITIALIZED_SUCCESS = 'app/INITIALIZED_SUCCESS'
+type InitialStateType = typeof initialState
 
-export type InitialStateType = {
-    initialized: boolean
-}
-
-const initialState: InitialStateType = {
+const initialState = {
     initialized: false
 }
 
-export default function AppReducer (state = initialState, action: ActionsTypes) {
+const AppReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
-        case INITIALIZED_SUCCESS:
+        case 'INITIALIZED_SUCCESS':
             return {
                 ...state,
                 initialized: true
@@ -22,19 +19,19 @@ export default function AppReducer (state = initialState, action: ActionsTypes) 
     }
 }
 
-type ActionsTypes = InitializedSuccessType
+type ActionsTypes = InferActionsTypes<typeof actions>
 
-type InitializedSuccessType = {
-    type: typeof INITIALIZED_SUCCESS // equals 'app/INITIALIZED_SUCCESS'
+const actions = {
+    initializedSuccess: () => ({type: 'INITIALIZED_SUCCESS'} as const)
 }
-
-const initializedSuccess = (): InitializedSuccessType => ({type: INITIALIZED_SUCCESS})
 
 export const initializedAppTC = () => (dispatch: any) => {
     const promise = dispatch(getAuthUserDataTC())
     //делается это для того, чтобы ждать пока получим данные пользователя
     Promise.all([promise]) //promise.All нужен, если есть несколько промисов, и их нужно добавить в массив
         .then(() => {
-            dispatch(initializedSuccess())
+            dispatch(actions.initializedSuccess())
         })
 }
+
+export default AppReducer
