@@ -1,4 +1,4 @@
-import {ResultCodesEnum} from "../api/api"
+import {APIResponseType, ResultCodesEnum} from "../api/api"
 import {ProfileType, UserType} from "../types/types"
 import {Dispatch} from "redux"
 import {BaseThunkType, InferActionsTypes} from "./redux-store"
@@ -141,7 +141,8 @@ export const unFollowTC = (userId: number): ThunkType => async (dispatch) => {
     await _followUnfollowFlow(userId, dispatch, usersAPI.unFollow, actions.unFollow)
 }
 
-const _followUnfollowFlow = async (userId: number, dispatch: Dispatch<ActionsTypes>, apiMethod: any,
+const _followUnfollowFlow = async (userId: number, dispatch: Dispatch<ActionsTypes>,
+                                   apiMethod: (userId: number) => Promise<APIResponseType>,
                                    actionCreator: (userId: number) => ActionsTypes) => {
     dispatch(actions.toggleIsFollowingProgress(true, userId))
     const data = await apiMethod(userId)
